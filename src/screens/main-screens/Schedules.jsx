@@ -11,11 +11,32 @@ import { globalStyles } from '../globalStyles';
 
 import { getAvailableTimes } from '../../functions/schedules/getAvailableTimes';
 
+import firestore from '@react-native-firebase/firestore';
+
+import { getMonth, getYear } from '../../functions/helpers/dateHelper';
+
 export const Schedules = ({ navigation }) => {
-  const [availableTimes, setAvailableTimes] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]); // state to store avaible times
   const [selectedTime, setSelectedTime] = useState('');
+
   const { shedulesUser, setShedulesUser } = useContext(ShedulesUserContext);
 
+  const year = getYear(shedulesUser);
+  const month = getMonth(shedulesUser);
+
+  const unavailableTimesRef = firestore().collection('unavailable_times').doc(`${month}_${year}`)
+
+  // all the times that collection `unavailable_times` in doc selected by user (`month_year`), it will update the data
+  useEffect(() => {
+    const unsubscribe = unavailableTimesRef.onSnapshot(() => {
+      getAvailableTimes(shedulesUser, setAvailableTimes);
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+
+  // sets the initial data
   useEffect(() => {
     getAvailableTimes(shedulesUser, setAvailableTimes);
   }, []);

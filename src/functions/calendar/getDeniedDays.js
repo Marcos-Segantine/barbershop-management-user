@@ -33,6 +33,5 @@ export const getDeniedDays = async (
       }
     }
   }
-  console.log(`${month}_${year}`);
   deniedDaysArrayToObejct(dataTemp);
 };

@@ -1,19 +1,21 @@
-import {View, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import {useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 
-import {Title} from '../../components/Title';
-import {Button} from '../../components/Button';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
 
-import {ShedulesUserContext} from '../../context/ShedulesUser';
+import { ShedulesUserContext } from '../../context/ShedulesUser';
 
-import {LoadingAnimation} from '../../components/LoadingAnimation';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 
-import {handleRightArrow} from '../../functions/calendar/handleRightArrow';
-import {handleLeftArrow} from '../../functions/calendar/handleLeftArrow';
-import {getDeniedDays} from '../../functions/calendar/getDeniedDays';
+import { handleRightArrow } from '../../functions/calendar/handleRightArrow';
+import { handleLeftArrow } from '../../functions/calendar/handleLeftArrow';
+import { getDeniedDays } from '../../functions/calendar/getDeniedDays';
+
+import firestore from '@react-native-firebase/firestore';
 
 LocaleConfig.locales['pt-br'] = {
   monthNames: [
@@ -56,7 +58,7 @@ LocaleConfig.locales['pt-br'] = {
   dayNamesShort: ['Dom', 'Seg', 'Terç', 'Qua', 'Qui', 'Sex', 'Sáb'],
 };
 
-export const Calandar = ({navigation}) => {
+export const Calandar = ({ navigation }) => {
   LocaleConfig.defaultLocale = 'pt-br';
 
   const initialMonth =
@@ -64,10 +66,26 @@ export const Calandar = ({navigation}) => {
       ? new Date().getMonth() + 1
       : `0${new Date().getMonth() + 1}`;
 
-  const {shedulesUser, setShedulesUser} = useContext(ShedulesUserContext);
+  const { shedulesUser, setShedulesUser } = useContext(ShedulesUserContext);
   const [deniedDays, setDeniedDays] = useState(null);
   const [month, setMonth] = useState(initialMonth);
   const [year, setYear] = useState(new Date().getFullYear());
+  const [showLoadingIndicator, setShowLoadingIndicator] = useState(false)
+
+  const deniedDaysRef = firestore().collection('denied_days').doc(`${month}_${year}`);
+
+  // all the times that collection `denied_days` in doc selected by user (`month_year`), it will update the data
+  useEffect(() => {
+    const unsubscribe = deniedDaysRef.onSnapshot(async () => {
+      setShowLoadingIndicator(true)
+
+      await getDeniedDays(shedulesUser, setDeniedDays, month, year);
+
+      setShowLoadingIndicator(false)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   useEffect(() => {
     getDeniedDays(shedulesUser, setDeniedDays, month, year);
@@ -113,7 +131,7 @@ export const Calandar = ({navigation}) => {
     addMonth();
   };
 
-  if (!deniedDays) {
+  if (!deniedDays || showLoadingIndicator) {
     return (
       <View style={style.container}>
         <LoadingAnimation />
@@ -126,13 +144,13 @@ export const Calandar = ({navigation}) => {
       <Title title="Selecione um data" />
 
       <Calendar
-        context={{date: ''}}
+        context={{ date: '' }}
         onPressArrowLeft={onPressArrowLeftCalendar}
         onPressArrowRight={onPressArrowRightCalendar}
         minDate={String(new Date())}
         markedDates={markedDatesCalendar}
         onDayPress={day =>
-          setShedulesUser({...shedulesUser, day: day.dateString})
+          setShedulesUser({ ...shedulesUser, day: day.dateString })
         }
         style={styleCalendar}
         theme={themeCalendar}
