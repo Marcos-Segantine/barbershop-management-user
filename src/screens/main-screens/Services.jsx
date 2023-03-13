@@ -17,14 +17,17 @@ import { globalStyles } from '../globalStyles';
 import { LoadingAnimation } from '../../components/LoadingAnimation';
 
 import { getServices } from '../../functions/schedules/getServices';
+import { SomethingWrong } from '../../context/somethingWrong';
 
 export const Services = ({ navigation }) => {
-  const { shedulesUser, setShedulesUser } = useContext(ShedulesUserContext);
   const [serviceUserSelected, setServiceUserSelected] = useState();
   const [services, setServices] = useState(null);
 
+  const { shedulesUser, setShedulesUser } = useContext(ShedulesUserContext);
+  const {setSomethingWrong} = useContext(SomethingWrong)
+
   useEffect(() => {
-    getServices(setServices)
+    getServices(setServices, setSomethingWrong)
   }, []);
 
   const handleComfirmButton = () => {

@@ -11,6 +11,7 @@ export const addScheduleWhenDayNotUse = async (
   userData,
   navigation,
   shedulesUser,
+  setSomethingWrong
 ) => {
   console.log('addScheduleWhenDayNotUse CALLED');
 
@@ -84,5 +85,6 @@ export const addScheduleWhenDayNotUse = async (
 
   } catch (error) {
     console.error('Error adding schedule:', error);
+    setSomethingWrong(true)
   }
 };

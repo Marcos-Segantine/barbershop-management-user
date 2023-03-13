@@ -9,6 +9,7 @@ export const handleNewPassword = async (
     navigation,
     userData,
     setUserData,
+    setSomethingWrong
 ) => {
     if (
         !oldPassword.trim() ||
@@ -49,5 +50,6 @@ export const handleNewPassword = async (
         navigation.navigate('Main');
     } catch (error) {
         console.log('Erro ao atualizar a senha: ', error);
+        setSomethingWrong(true)
     }
 };

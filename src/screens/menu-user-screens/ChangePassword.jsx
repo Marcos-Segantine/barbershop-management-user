@@ -17,6 +17,7 @@ import { MessageError } from '../../components/MessageError';
 import { UserContext } from '../../context/UserContext';
 
 import { handleNewPassword } from '../../functions/user/handleNewPassword';
+import { SomethingWrong } from '../../context/somethingWrong';
 
 export const ChangePassword = ({ navigation }) => {
   const [oldPassword, setOldPassword] = useState('');
@@ -24,7 +25,9 @@ export const ChangePassword = ({ navigation }) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [messageError, setMessageError] = useState('');
+  
   const { userData, setUserData } = useContext(UserContext);
+  const {setSomethingWrong} = useContext(SomethingWrong)
 
   return (
     <KeyboardAvoidingView
@@ -78,7 +81,8 @@ export const ChangePassword = ({ navigation }) => {
           setMessageError,
           navigation,
           userData,
-          setUserData
+          setUserData,
+          setSomethingWrong
         )} />
     </KeyboardAvoidingView>
   );

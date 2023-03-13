@@ -11,7 +11,7 @@ export const createUserWithEmailAndPassword = async (
   setMessageError,
   setModalVisible,
   setModalMessageEmailVerification,
-  setPhoneVerificationVisible
+  setPhoneVerificationVisible,
 ) => {
   const isFieldsValid =
     email &&

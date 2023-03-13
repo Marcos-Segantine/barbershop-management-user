@@ -11,6 +11,7 @@ export const handleComfirmNewSchedule = async (
     userData,
     navigation,
     setSchedulesUser,
+    setSomethingWrong
 ) => {
 
     const scheduleMouth = getMonth(schedulesUser);
@@ -28,6 +29,7 @@ export const handleComfirmNewSchedule = async (
             navigation,
             schedulesUser,
             setSchedulesUser,
+            setSomethingWrong
         );
         return;
     }
@@ -35,11 +37,12 @@ export const handleComfirmNewSchedule = async (
     const dayIsAlredyUse = schedulesMonthData[scheduleDay]
 
     dayIsAlredyUse
-        ? addScheduleWhenDayAlredyUse(navigation, userData, schedulesUser)
+        ? addScheduleWhenDayAlredyUse(navigation, userData, schedulesUser, setSomethingWrong)
         : addScheduleWhenDayNotUse(
             userData,
             navigation,
             schedulesUser,
             setSchedulesUser,
+            setSomethingWrong
         );
 };

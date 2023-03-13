@@ -11,11 +11,13 @@ import { ChangePassword } from '../../components/modals/ChangePassword';
 
 import { handleLogOut } from '../../functions/user/handleLogOut';
 import { handleChangePassword } from '../../functions/user/handleChangePassword';
+import { SomethingWrong } from '../../context/somethingWrong';
 
 export const Main = () => {
   const [modalChangePassword, setModalChangePassword] = useState(false);
 
   const { userData, setUserData } = useContext(UserContext);
+  const { setSomethingWrong } = useContext(SomethingWrong)
 
   const navigation = useNavigation();
 
@@ -43,7 +45,7 @@ export const Main = () => {
             <Text style={style.text}>Suas informações</Text>
           </Pressable>
 
-          <Pressable style={style.link} onPress={() => handleChangePassword(userData, setModalChangePassword, navigation)}>
+          <Pressable style={style.link} onPress={() => handleChangePassword(userData, setModalChangePassword, navigation, setSomethingWrong)}>
             <Text style={style.text}>Redefinir senha</Text>
           </Pressable>
 
@@ -53,7 +55,7 @@ export const Main = () => {
             <Text style={style.text}>Enviar um feedback</Text>
           </Pressable>
 
-          <Pressable style={style.link} onPress={() => handleLogOut(setUserData, navigation)}>
+          <Pressable style={style.link} onPress={() => handleLogOut(setUserData, navigation, setSomethingWrong)}>
             <Text style={style.text}>Sair</Text>
           </Pressable>
         </View>

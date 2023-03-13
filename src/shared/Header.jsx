@@ -1,27 +1,31 @@
-import {useNavigation, useNavigationState} from '@react-navigation/native';
-import {useContext, useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Pressable} from 'react-native';
+import { useNavigation, useNavigationState } from '@react-navigation/native';
+import { useContext, useEffect, useState } from 'react';
+import { Text, View, StyleSheet, Pressable } from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
 
-import Svg, {Path, Defs, Pattern, Image, Use} from 'react-native-svg';
+import Svg, { Path, Defs, Pattern, Image, Use } from 'react-native-svg';
 
-import {UserContext} from '../context/UserContext';
+import { UserContext } from '../context/UserContext';
 
-import {verifyScreenName} from '../functions/navigation/verifyScreenName';
+import { verifyScreenName } from '../functions/navigation/verifyScreenName';
 
-import {UserVerified} from '../context/UserVerified';
+import { UserVerified } from '../context/UserVerified';
 
 import NetInfo from '@react-native-community/netinfo';
 
-import auth from '@react-native-firebase/auth';
-import {BadInternet} from '../components/modals/BadInternet';
+import { BadInternet } from '../components/modals/BadInternet';
+import { SomethingWentWrong } from '../components/modals/SomethingWentWrong';
+import { SomethingWrong } from '../context/somethingWrong';
 
 export const Header = () => {
   const [showComeBackIcon, setShowComeBackIcon] = useState(false);
   const [showUserIcon, setShowUserIcon] = useState(false);
 
   const [isConnected, setIsConnected] = useState(true);
+
+
+  const {} = useContext(SomethingWrong)
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
@@ -34,8 +38,8 @@ export const Header = () => {
 
   const navigation = useNavigation();
 
-  const {userData} = useContext(UserContext);
-  const {userVerified} = useContext(UserVerified);
+  const { userData } = useContext(UserContext);
+  const { userVerified } = useContext(UserVerified);
 
   const stateNavigation = useNavigationState(
     stateNavigation => stateNavigation,
@@ -53,15 +57,15 @@ export const Header = () => {
       console.log(userData, '<<<<<<<<<<<');
       userData
         ? firestore()
-            .collection('users')
-            .doc(userData?.uid)
-            .get()
-            .then(({_data}) => {
-              console.log(userVerified, 'userVerified');
-              !!_data && userVerified
-                ? setShowUserIcon(true)
-                : setShowUserIcon(false);
-            })
+          .collection('users')
+          .doc(userData?.uid)
+          .get()
+          .then(({ _data }) => {
+            console.log(userVerified, 'userVerified');
+            !!_data && userVerified
+              ? setShowUserIcon(true)
+              : setShowUserIcon(false);
+          })
         : setShowUserIcon(false);
     })();
   }, [userData]);
@@ -94,9 +98,12 @@ export const Header = () => {
 
   return (
     <View style={style.container}>
-      <BadInternet 
+      <BadInternet
         visible={!isConnected}
       />
+
+      <SomethingWentWrong />
+
       <View style={style.containerIcons}>
         <Pressable
           style={

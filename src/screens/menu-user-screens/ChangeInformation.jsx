@@ -1,14 +1,18 @@
-import React, {useState, useContext} from 'react';
-import {View, StyleSheet, TextInput, Text} from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, StyleSheet, TextInput, Text } from 'react-native';
+import { UserContext } from '../../context/UserContext';
 
-import {UserContext} from '../../context/UserContext';
-import {globalStyles} from '../globalStyles';
-import {hadleNewInfomation} from '../../functions/user/hadleNewInfomation';
-import {Title} from '../../components/Title';
-import {Button} from '../../components/Button';
-import {ChangeInformations} from '../../components/modals/ChangeInformations';
-import {LoadingAnimation} from '../../components/LoadingAnimation';
-import {formatPhoneNumber} from '../../functions/helpers/formatPhoneNumber';
+import { globalStyles } from '../globalStyles';
+
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
+
+import { ChangeInformations } from '../../components/modals/ChangeInformations';
+
+import { hadleNewInfomation } from '../../functions/user/hadleNewInfomation';
+import { formatPhoneNumber } from '../../functions/helpers/formatPhoneNumber';
+import { SomethingWrong } from '../../context/somethingWrong';
 
 export const ChangeInformation = () => {
   const [name, setName] = useState('');
@@ -24,7 +28,8 @@ export const ChangeInformation = () => {
   const [messageError, setMessageError] = useState('');
   const [isToShowLoading, setIsToShowLoading] = useState(false);
 
-  const {userData, setUserData} = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
+  const { setSomethingWrong } = useContext(SomethingWrong)
 
   const handleInformations = () => [
     hadleNewInfomation(
@@ -43,6 +48,7 @@ export const ChangeInformation = () => {
       userData,
       setUserData,
       setConfirm,
+      setSomethingWrong
     ),
   ];
 

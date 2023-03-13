@@ -14,11 +14,13 @@ import { UserContext } from '../../context/UserContext';
 import { useIsFocused } from '@react-navigation/native';
 
 import { handleComfirmNewSchedule } from '../../functions/schedules/handleComfirmNewSchedule';
+import { SomethingWrong } from '../../context/somethingWrong';
 
 export const ConfirmSchedule = ({ navigation }) => {
   const { shedulesUser, setShedulesUser } = useContext(ShedulesUserContext);
 
   const { userData } = useContext(UserContext);
+  const { setSomethingWrong } = useContext(SomethingWrong);
 
   const date = dateFormated(shedulesUser);
 
@@ -58,7 +60,8 @@ export const ConfirmSchedule = ({ navigation }) => {
         shedulesUser,
         userData,
         navigation,
-        setShedulesUser
+        setShedulesUser,
+        setSomethingWrong
       )} />
     </View>
   );

@@ -7,30 +7,39 @@ import {
   Modal,
 } from 'react-native';
 
-import {Title} from '../../components/Title';
-import {Button} from '../../components/Button';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
 
-import {useState} from 'react';
+import { useContext, useState } from 'react';
 
 import auth from '@react-native-firebase/auth';
 
-import {globalStyles} from '../globalStyles';
+import { globalStyles } from '../globalStyles';
+import { SomethingWrong } from '../../context/somethingWrong';
 
-export const ForgotPassword = ({navigation}) => {
+export const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleForgotPassword = () => {
-    auth()
-      .sendPasswordResetEmail(email)
-      .then(() => {
-        setModalVisible(true);
-      })
-      .catch(err => {
+  const { setSomethingWrong } = useContext(SomethingWrong)
 
-        console.log(err);
-      });
+  const handleForgotPassword = () => {
+    try {
+      auth()
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          setModalVisible(true);
+        })
+        .catch(err => {
+
+          console.log(err);
+        });
+
+    } catch (error) {
+      console.log(error);
+      setSomethingWrong(true)
+    }
   };
 
   return (

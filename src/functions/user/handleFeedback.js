@@ -4,7 +4,8 @@ export const handleFeedback = async (
     feedback,
     setFeedback,
     setModalVisible,
-    userData
+    userData,
+    setSomethingWrong
 ) => {
     try {
         if (!feedback.trim()) {
@@ -28,5 +29,6 @@ export const handleFeedback = async (
         setFeedback('');
     } catch (error) {
         console.log('Erro ao enviar feedback: ', error);
+        setSomethingWrong(true)
     }
 };

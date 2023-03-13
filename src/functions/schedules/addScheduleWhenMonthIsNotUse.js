@@ -15,6 +15,7 @@ export const addScheduleWhenMonthIsNotUse = async (
   navigation,
   schedulesUser,
   setSchedulesUser,
+  setSomethingWrong
 ) => {
   console.log('addScheduleWhenMonthIsNotUse CALLED');
 
@@ -76,6 +77,7 @@ export const addScheduleWhenMonthIsNotUse = async (
 
   } catch (error) {
     console.log(error);
+    setSomethingWrong(true)
   }
 
 };

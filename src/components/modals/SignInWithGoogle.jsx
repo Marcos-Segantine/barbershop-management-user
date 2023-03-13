@@ -61,6 +61,4 @@ const SignInWithGoogle = React.memo(() => {
   );
 });
 
-const style = StyleSheet.create({});
-
 export {SignInWithGoogle};

@@ -7,7 +7,7 @@ import {
     getYear,
 } from '../../functions/helpers/dateHelper';
 
-export const getAvailableTimes = async (shedulesUser, setAvailableTimes) => {
+export const getAvailableTimes = async (shedulesUser, setAvailableTimes, setSomethingWrong) => {
     const year = getYear(shedulesUser);
     const month = getMonth(shedulesUser);
     const day = getDay(shedulesUser);
@@ -44,5 +44,6 @@ export const getAvailableTimes = async (shedulesUser, setAvailableTimes) => {
         setAvailableTimes(availableTimes);
     } catch (error) {
         console.error(error);
+        setSomethingWrong(true)
     }
 };

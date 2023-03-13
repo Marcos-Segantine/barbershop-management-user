@@ -7,21 +7,21 @@ import {
   ScrollView,
 } from 'react-native';
 
-import {Title} from '../../components/Title';
-import {Button} from '../../components/Button';
+import { Title } from '../../components/Title';
+import { Button } from '../../components/Button';
 
-import {useState} from 'react';
+import { useState } from 'react';
 
-import {MessageError} from '../../components/MessageError';
+import { MessageError } from '../../components/MessageError';
 
-import {createUserWithEmailAndPassword} from '../../functions/register/createUserWithEmailAndPassword';
+import { createUserWithEmailAndPassword } from '../../functions/register/createUserWithEmailAndPassword';
 
-import {SignInWithGoogle} from '../../components/modals/SignInWithGoogle';
+import { SignInWithGoogle } from '../../components/modals/SignInWithGoogle';
 
-import {EmailVerificationModal} from '../../components/modals/EmailVerificationModal';
-import {PhoneVerificationModal} from '../../components/modals/PhoneVerificationModal';
+import { EmailVerificationModal } from '../../components/modals/EmailVerificationModal';
+import { PhoneVerificationModal } from '../../components/modals/PhoneVerificationModal';
 
-export const Register = ({navigation}) => {
+export const Register = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');

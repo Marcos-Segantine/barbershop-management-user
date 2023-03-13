@@ -14,6 +14,7 @@ export const addScheduleWhenDayAlredyUse = async (
   navigation,
   userData,
   schedule,
+  setSomethingWrong
 ) => {
   console.log('addScheduleWhenDayAlredyUse CALLED');
 
@@ -96,5 +97,6 @@ export const addScheduleWhenDayAlredyUse = async (
 
   } catch (error) {
     console.log(error);
+    setSomethingWrong(true)
   }
 };
